@@ -46,9 +46,19 @@ public:
 	void NotifyObservers() override
 	{
 		T data = GetChangedData();
-		for (auto & observer : m_observers)
+		auto clone(m_observers);
+
+		for (auto & observer : clone)
 		{
-			observer->Update(data);
+			try
+			{
+				observer->Update(data);
+			}
+			catch (...)
+			{
+				RemoveObserver(*observer);
+				std::cout << "Error." << std::endl;
+			}
 		}
 	}
 

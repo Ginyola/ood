@@ -91,7 +91,7 @@ private:
 		PrintStatistics(m_pressure);
 	}
 
-	void PrintStatistics(CStatistics data)
+	void PrintStatistics(CStatistics &data)
 	{
 		std::cout << "Max: " << data.GetMaxValue() << std::endl;
 		std::cout << "Min: " << data.GetMinValue() << std::endl;
