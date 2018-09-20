@@ -50,15 +50,12 @@ public:
 
 		for (auto & observer : clone)
 		{
-			try
+			observer->Update(data);
+			if (m_observers.find(observer) == m_observers.end())
 			{
-				observer->Update(data);
+				RegisterObserver(*observer);
 			}
-			catch (...)
-			{
-				RemoveObserver(*observer);
-				std::cout << "Error." << std::endl;
-			}
+			std::cout << "After suicide..." << std::endl;
 		}
 	}
 
