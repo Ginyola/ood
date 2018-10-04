@@ -10,13 +10,34 @@ struct IFlyBehavior
 	virtual ~IFlyBehavior(){};
 	virtual void Fly() = 0;
 };
-class FlyWithWings : public IFlyBehavior
+
+class CFlyBehaviorWithRegistration : public IFlyBehavior
+{
+public:
+	int GetDepartureNumber() const
+	{
+		return m_departuresNumber;
+	}
+
+	void IncreaseDepartureNumber()
+	{
+		++m_departuresNumber;
+	}
+
+private:
+	int m_departuresNumber = 0;
+};
+
+class FlyWithWings : public CFlyBehaviorWithRegistration
 {
 public:
 	void Fly() override
 	{
-		cout << "I'm flying with wings!!" << endl;
+		IncreaseDepartureNumber();
+		cout << "I'm flying with wings!! " << GetDepartureNumber() << " time(-s)" << endl;
 	}
+private:
+	int m_departuresNumber = 0;
 };
 
 class FlyNoWay : public IFlyBehavior
@@ -214,6 +235,11 @@ void main()
 {
 	MallardDuck mallarDuck;
 	PlayWithDuck(mallarDuck);
+	mallarDuck.Fly();
+	mallarDuck.SetFlyBehavior(make_unique<FlyWithWings>());
+	mallarDuck.Fly();
+
+
 
 	RedheadDuck redheadDuck;
 	PlayWithDuck(redheadDuck);
