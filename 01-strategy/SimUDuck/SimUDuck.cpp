@@ -11,30 +11,13 @@ struct IFlyBehavior
 	virtual void Fly() = 0;
 };
 
-class CFlyBehaviorWithRegistration : public IFlyBehavior
-{
-public:
-	int GetDepartureNumber() const
-	{
-		return m_departuresNumber;
-	}
 
-	void IncreaseDepartureNumber()
-	{
-		++m_departuresNumber;
-	}
-
-private:
-	int m_departuresNumber = 0;
-};
-
-class FlyWithWings : public CFlyBehaviorWithRegistration
+class FlyWithWings : public IFlyBehavior
 {
 public:
 	void Fly() override
 	{
-		IncreaseDepartureNumber();
-		cout << "I'm flying with wings!! " << GetDepartureNumber() << " time(-s)" << endl;
+		cout << "I'm flying with wings!! " << ++m_departuresNumber << " time(-s)" << endl;
 	}
 private:
 	int m_departuresNumber = 0;
@@ -127,7 +110,7 @@ public:
 	{
 		m_flyBehavior->Fly();
 	}
-	virtual void Dance()
+	void Dance()
 	{
 		m_danceBehavior->Dance();
 	}
