@@ -6,12 +6,6 @@
 class CObservableObject : public CObservable<int>
 {
 
-public:
-	std::string PrintHello() const
-	{
-		return "HELLO";
-	}
-
 protected:
 	int GetChangedData()const override
 	{
@@ -25,16 +19,12 @@ public:
 	CSuicideObserver(CObservableObject &father) :
 		m_father(&father) {};
 
-	std::string AmIAlive()
-	{
-		return "Yes!";
-	}
-
 private:
 	void Update(int const &c) override
 	{
-		m_father->RemoveObserver(*this);
-		std::cout << "Self-removing..." << m_father->PrintHello() << std::endl;
+		//std::cout << "Self-removing..." << std::endl;
+		//m_father->RemoveObserver(*this);
+		//std::cout << "Hello" << std::endl;
 	}
 
 	std::unique_ptr<CObservableObject> m_father;
@@ -49,4 +39,5 @@ BOOST_AUTO_TEST_SUITE(Weather_tests)
 		data.RegisterObserver(observer);
 		data.NotifyObservers();
 	}
+
 BOOST_AUTO_TEST_SUITE_END()

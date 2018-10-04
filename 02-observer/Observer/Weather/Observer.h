@@ -41,27 +41,37 @@ public:
 	void RegisterObserver(ObserverType & observer) override
 	{
 		m_observers.insert(&observer);
+		++m_observersAmount;
 	}
 
 	void NotifyObservers() override
 	{
+		auto currentObserversAmount = m_observersAmount;
+
 		T data = GetChangedData();
 		auto clone(m_observers);
 
 		for (auto & observer : clone)
 		{
 			observer->Update(data);
-			if (m_observers.find(observer) == m_observers.end())
-			{
-				RegisterObserver(*observer);
-			}
-			std::cout << "After suicide..." << std::endl;
 		}
+		
+		if (currentObserversAmount != m_observersAmount)
+		{
+			cout << "Houston have a loss :( "
+				<< currentObserversAmount << " " 
+				<< m_observersAmount 
+				<< endl;
+			clone.clear();
+		}
+
+		m_observers = clone;
 	}
 
 	void RemoveObserver(ObserverType & observer) override
 	{
 		m_observers.erase(&observer);
+		--m_observersAmount;
 	}
 
 protected:
@@ -71,4 +81,5 @@ protected:
 
 private:
 	std::set<ObserverType *> m_observers;
+	int m_observersAmount = 0;
 };
