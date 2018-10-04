@@ -17,17 +17,17 @@ class CSuicideObserver : public IObserver<int>
 {
 public:
 	CSuicideObserver(CObservableObject &father) :
-		m_father(&father) {};
+		m_father(father) {};
 
 private:
 	void Update(int const &c) override
 	{
-		//std::cout << "Self-removing..." << std::endl;
-		//m_father->RemoveObserver(*this);
-		//std::cout << "Hello" << std::endl;
+		std::cout << "Self-removing..." << std::endl;
+		m_father.RemoveObserver(*this);
+		std::cout << "Removed" << std::endl;
 	}
 
-	std::unique_ptr<CObservableObject> m_father;
+	CObservableObject &m_father;
 };
 
 BOOST_AUTO_TEST_SUITE(Weather_tests)

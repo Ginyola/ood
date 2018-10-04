@@ -62,7 +62,6 @@ public:
 				<< currentObserversAmount << " " 
 				<< m_observersAmount 
 				<< endl;
-			clone.clear();
 		}
 
 		m_observers = clone;
