@@ -63,8 +63,6 @@ public:
 				<< m_observersAmount 
 				<< endl;
 		}
-
-		m_observers = clone;
 	}
 
 	void RemoveObserver(ObserverType & observer) override
