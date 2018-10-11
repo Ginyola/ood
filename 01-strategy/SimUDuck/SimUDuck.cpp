@@ -170,7 +170,6 @@ public:
 	{
 		cout << "I'm decoy duck" << endl;
 	}
-	void Dance() override {}
 };
 class RubberDuck : public Duck
 {
@@ -183,7 +182,6 @@ public:
 	{
 		cout << "I'm rubber duck" << endl;
 	}
-	void Dance() override {}
 };
 
 class ModelDuck : public Duck
@@ -197,7 +195,6 @@ public:
 	{
 		cout << "I'm model duck" << endl;
 	}
-	void Dance() override {}
 };
 
 void DrawDuck(Duck const& duck)
