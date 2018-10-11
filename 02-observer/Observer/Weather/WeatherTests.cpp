@@ -19,15 +19,20 @@ public:
 	CSuicideObserver(CObservableObject &father) :
 		m_father(father) {};
 
+	unsigned GetNotificationNumber() const
+	{
+		return m_notificationCount;
+	}
+
 private:
 	void Update(int const &c) override
 	{
-		std::cout << "Self-removing..." << std::endl;
+		++m_notificationCount;
 		m_father.RemoveObserver(*this);
-		std::cout << "Removed" << std::endl;
 	}
 
 	CObservableObject &m_father;
+	unsigned m_notificationCount = 0;
 };
 
 BOOST_AUTO_TEST_SUITE(Weather_tests)
@@ -36,8 +41,20 @@ BOOST_AUTO_TEST_SUITE(Weather_tests)
 	{
 		CObservableObject data;
 		CSuicideObserver observer(data);
+
+		auto before = observer.GetNotificationNumber();
+
 		data.RegisterObserver(observer);
 		data.NotifyObservers();
+		data.NotifyObservers();
+		data.NotifyObservers();
+		data.NotifyObservers();
+		data.NotifyObservers();
+
+		auto after = observer.GetNotificationNumber();
+		std::cout << "Before: " << before << " After: " << after << std::endl;
+
+		BOOST_CHECK((before == 0) && (after == 1));
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
