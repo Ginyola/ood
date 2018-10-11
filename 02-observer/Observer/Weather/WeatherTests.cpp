@@ -35,6 +35,7 @@ private:
 	unsigned m_notificationCount = 0;
 };
 
+
 BOOST_AUTO_TEST_SUITE(Weather_tests)
 
 	BOOST_AUTO_TEST_CASE(Notify_observers)
@@ -55,6 +56,25 @@ BOOST_AUTO_TEST_SUITE(Weather_tests)
 		std::cout << "Before: " << before << " After: " << after << std::endl;
 
 		BOOST_CHECK((before == 0) && (after == 1));
+	}
+
+	BOOST_AUTO_TEST_CASE(Observers_notifying_with_priority)
+	{
+		CWeatherData data;
+
+		CDisplay firstDisplay(1);
+		CDisplay secondDisplay(2);
+		CDisplay thirdDisplay(3);
+		CDisplay forthDisplay(4);
+		CDisplay fifthDisplay(5);
+
+		data.RegisterObserver(firstDisplay);
+		data.RegisterObserver(thirdDisplay);
+		data.RegisterObserver(secondDisplay);
+		data.RegisterObserver(fifthDisplay);
+		data.RegisterObserver(forthDisplay);
+
+		data.NotifyObservers();
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
