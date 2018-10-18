@@ -34,9 +34,8 @@ enum CoffieSize
 class CCoffee : public CBeverage
 {
 public:
-	CCoffee(const std::string& description = "Coffee", CoffieSize size = CoffieSize::STANDARD)
+	CCoffee(const std::string& description = "Coffee")
 		:CBeverage(description)
-		, m_size(size)
 	{}
 
 	double GetCost() const override 
@@ -44,6 +43,10 @@ public:
 		return 60; 
 	}
 protected:
+	CCoffee(const std::string& description = "Coffee", CoffieSize size = CoffieSize::STANDARD)
+		: CBeverage(description)
+		, m_size(size)
+	{};
 	CoffieSize m_size;
 };
 
@@ -52,17 +55,29 @@ class CCapuccino : public CCoffee
 {
 public:
 	CCapuccino(const std::string& description = "Capuccino", CoffieSize size = CoffieSize::STANDARD)
-		: CCoffee(description, size)
+		: CCoffee(GetCapuccinoDescription(size), size)
 	{
-		if (m_size == CoffieSize::DOUBLE)
-		{
-			CCoffee("Double Capuccino");
-		}
 	}
 
 	double GetCost() const override 
 	{
 		return (CoffieSize::DOUBLE) ? 120 : 80;
+	}
+
+private:
+	std::string GetCapuccinoDescription(CoffieSize size)
+	{
+		std::string description;
+		if (size == CoffieSize::DOUBLE)
+		{
+			description = "Double Capuccino";
+		}
+		else
+		{
+			description = "Capuccino";
+		}
+
+		return description;
 	}
 };
 
@@ -71,17 +86,29 @@ class CLatte : public CCoffee
 {
 public:
 	CLatte(const std::string& description = "Latte", CoffieSize size = CoffieSize::STANDARD)
-		: CCoffee(description, size)
+		: CCoffee(GetLatteDescription(size), size)
 	{
-		if (m_size == CoffieSize::DOUBLE)
-		{
-			CCoffee("Double Latte");
-		}
 	}
 
 	double GetCost() const override 
 	{
 		return (CoffieSize::DOUBLE) ? 130 : 90;
+	}
+
+private:
+	std::string GetLatteDescription(CoffieSize size)
+	{
+		std::string description;
+		if (size == CoffieSize::DOUBLE)
+		{
+			description = "Double Latte";
+		}
+		else
+		{
+			description = "Latte";
+		}
+
+		return description;
 	}
 };
 
@@ -140,23 +167,9 @@ class CMilkshake : public CBeverage
 {
 public:
 	CMilkshake(const std::string& description = "Milkshake", MilkshakeSize size = MilkshakeSize::SMALL)
-		:CBeverage(description)
+		:CBeverage(GetMilksakeDescription(size))
 		, m_size(size)
 	{
-		if (m_size == MilkshakeSize::SMALL)
-		{
-			CBeverage("Small milkshake");
-		};
-
-		if (m_size == MilkshakeSize::MEDIUM)
-		{
-			CBeverage("Medium milkshake");
-		};
-
-		if (m_size == MilkshakeSize::LARGE)
-		{
-			CBeverage("Large milkshake");;
-		};
 	}
 
 	double GetCost() const override 
@@ -181,5 +194,26 @@ public:
 		return cost; 
 	}
 private:
+	std::string GetMilksakeDescription(MilkshakeSize size)
+	{
+		std::string description;
+		if (m_size == MilkshakeSize::SMALL)
+		{
+			description = "Small milkshake";
+		}
+
+		if (m_size == MilkshakeSize::MEDIUM)
+		{
+			description = "Medium milkshake";
+		}
+
+		if (m_size == MilkshakeSize::LARGE)
+		{
+			description = "Large milkshake";
+		}
+
+		return description;
+	}
+
 	MilkshakeSize m_size;
 };
