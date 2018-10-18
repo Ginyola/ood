@@ -27,9 +27,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Support Files</Filter>
     </ClInclude>
@@ -48,6 +45,12 @@
     <ClInclude Include="IShapeFactory.h">
       <Filter>Source Files\Shapes</Filter>
     </ClInclude>
+    <ClInclude Include="ICanvas.h">
+      <Filter>Source Files\Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="CCanvas.h">
+      <Filter>Source Files\Canvas</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -61,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="Shape.cpp">
       <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="CCanvas.cpp">
+      <Filter>Source Files\Canvas</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
