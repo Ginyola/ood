@@ -14,7 +14,7 @@ struct SWeatherInfo
 	double humidity = 0;
 	double pressure = 0;
 	double windForce = 0;
-	double windDiraction = 0;
+	double windDirection = 0;
 };
 
 class CDisplay : public IObserver<SWeatherInfo>
@@ -107,7 +107,7 @@ private:
 		m_humidity.AddValue(data.humidity);
 		m_pressure.AddValue(data.pressure);
 		m_windForce.AddValue(data.windForce);
-
+		m_windDirection.AddValue(data.windDirection);
 
 		std::cout << "Temperature: " << std::endl;
 		PrintStatistics(m_temperature);
@@ -118,23 +118,23 @@ private:
 		std::cout << "Wind Force: " << std::endl;
 		PrintStatistics(m_windForce);
 		std::cout << "Wind Diraction: " << std::endl;
-		PrintWindDirection(data.windDiraction);
+		PrintWindDirection(m_windDirection);
 	}
 
-	void PrintWindDirection(double const windDiractionValue)
+	void PrintWindDirection(CStatistics &data)
 	{
-		std::string diraction;
-		if((windDiractionValue > 300) || ((windDiractionValue >= 0) && (windDiractionValue <= 60)))
+		/*std::string diraction;
+		if((windDirectionValue > 300) || ((windDirectionValue >= 0) && (windDirectionValue <= 60)))
 		{
 			diraction += "North";
 		}
 
-		if ((windDiractionValue >= 120) && (windDiractionValue <= 240))
+		if ((windDirectionValue >= 120) && (windDirectionValue <= 240))
 		{
 			diraction += "South";
 		}
 
-		if ((windDiractionValue >= 30) && (windDiractionValue <= 150))
+		if ((windDirectionValue >= 30) && (windDirectionValue <= 150))
 		{
 			if (!empty(diraction))
 			{
@@ -143,16 +143,18 @@ private:
 			diraction += "West";
 		}
 
-		if ((windDiractionValue >= 210) && (windDiractionValue <= 330))
+		if ((windDirectionValue >= 210) && (windDirectionValue <= 330))
 		{
 			if (!empty(diraction))
 			{
 				diraction += "-";
 			}
 			diraction += "East";
-		}
+		}*/
+		double x = cos(data.GetAverageValue());
+		double y = sin(data.GetAverageValue());
 
-		std::cout << "Direction: " << diraction << std::endl;
+		std::cout << "Direction: " << atan2(y, x) << std::endl;
 		std::cout << "----------------" << std::endl;
 	}
 
@@ -169,7 +171,7 @@ private:
 	CStatistics m_humidity;
 	CStatistics m_pressure;
 	CStatistics m_windForce;
-	CStatistics m_windDiraction;
+	CStatistics m_windDirection;
 };
 
 class CWeatherData : public CObservable<SWeatherInfo>
@@ -196,7 +198,7 @@ public:
 		return m_windForce;
 	}
 
-	double GetWindDiraction() const
+	double GetWindDirection() const
 	{
 		return fmod(m_windDirection, static_cast<double>(360));;
 	}
@@ -206,13 +208,13 @@ public:
 		NotifyObservers();
 	}
 
-	void SetMeasurements(double temp, double humidity, double pressure, double windForce, double windDiraction)
+	void SetMeasurements(double temp, double humidity, double pressure, double windForce, double windDirection)
 	{
 		m_humidity = humidity;
 		m_temperature = temp;
 		m_pressure = pressure;
 		m_windForce = windForce;
-		m_windDirection = windDiraction;
+		m_windDirection = windDirection;
 
 		MeasurementsChanged();
 	}
@@ -225,7 +227,7 @@ protected:
 		info.humidity = GetHumidity();
 		info.pressure = GetPressure();
 		info.windForce = GetWindForce();
-		info.windDiraction = GetWindDiraction();
+		info.windDirection = GetWindDirection();
 
 		return info;
 	}
