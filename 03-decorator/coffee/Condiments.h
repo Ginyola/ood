@@ -237,3 +237,33 @@ protected:
 private:
 	LiquorType m_type;
 };
+
+// Шоколадная плитка
+class CChocolateBars : public CCondimentDecorator
+{
+public:
+	CChocolateBars(IBeveragePtr && beverage, unsigned amount)
+		:CCondimentDecorator(move(beverage))
+	{
+		if (amount > 5)
+		{
+			m_amount = 5;
+		}
+		else
+		{
+			m_amount = amount;
+		}
+	}
+
+	double GetCondimentCost()const override
+	{
+		return 10 * m_amount;
+	}
+
+	std::string GetCondimentDescription()const override
+	{
+		return "Chocolate bars " + std::to_string(m_amount) + " pieces";
+	}
+private:
+	unsigned m_amount;
+};
