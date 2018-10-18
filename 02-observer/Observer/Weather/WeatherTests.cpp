@@ -68,28 +68,24 @@ BOOST_AUTO_TEST_SUITE(Weather_tests)
 		BOOST_CHECK((before == 0) && (after == 1));
 	}
 
-	BOOST_AUTO_TEST_CASE(Observers_notifying_with_priority)
+	BOOST_AUTO_TEST_CASE(Wind_measurments_addon)
 	{
-		CWeatherData data;
+		CWeatherData wd;
 
-		CObserverPriority firstDisplay;
-		firstDisplay.SetPriority(1);
-		CObserverPriority secondDisplay;
-		secondDisplay.SetPriority(5);
-		CObserverPriority thirdDisplay;
-		thirdDisplay.SetPriority(3);
-		CObserverPriority forthDisplay;
-		CObserverPriority fifthDisplay;
+		CDisplay display;
+		wd.RegisterObserver(display);
 
-		data.RegisterObserver(firstDisplay);
-		data.RegisterObserver(thirdDisplay);
-		data.RegisterObserver(secondDisplay);
-		data.RegisterObserver(fifthDisplay);
-		data.RegisterObserver(forthDisplay);
+		CStatsDisplay statsDisplay;
+		wd.RegisterObserver(statsDisplay);
 
-		data.NotifyObservers();
+		wd.SetMeasurements(3, 0.7, 760, 10, 0);
+		wd.SetMeasurements(4, 0.8, 761, 5, 90);
 
+		wd.SetMeasurements(10, 0.8, 759, 9, 1000);
+		wd.SetMeasurements(-10, 0.8, 761, 2, 225);
+		wd.SetMeasurements(-10, 0.8, 761, 2, 45);
 
+//		BOOST_CHECK();
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

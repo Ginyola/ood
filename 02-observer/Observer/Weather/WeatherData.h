@@ -1,6 +1,7 @@
 #pragma once
 #include "Observer.h"
 #include <algorithm>
+#include <cmath>
 #include <climits>
 #include <iostream>
 #include <vector>
@@ -12,6 +13,8 @@ struct SWeatherInfo
 	double temperature = 0;
 	double humidity = 0;
 	double pressure = 0;
+	double windForce = 0;
+	double windDiraction = 0;
 };
 
 class CDisplay : public IObserver<SWeatherInfo>
@@ -103,6 +106,8 @@ private:
 		m_temperature.AddValue(data.temperature);
 		m_humidity.AddValue(data.humidity);
 		m_pressure.AddValue(data.pressure);
+		m_windForce.AddValue(data.windForce);
+
 
 		std::cout << "Temperature: " << std::endl;
 		PrintStatistics(m_temperature);
@@ -110,7 +115,47 @@ private:
 		PrintStatistics(m_humidity);
 		std::cout << "Pressure: " << std::endl;
 		PrintStatistics(m_pressure);
+		std::cout << "Wind Force: " << std::endl;
+		PrintStatistics(m_windForce);
+		std::cout << "Wind Diraction: " << std::endl;
+		PrintWindDirection(data.windDiraction);
 	}
+
+	void PrintWindDirection(double const windDiractionValue)
+	{
+		std::string diraction;
+		if((windDiractionValue > 300) || ((windDiractionValue >= 0) && (windDiractionValue <= 60)))
+		{
+			diraction += "North";
+		}
+
+		if ((windDiractionValue >= 120) && (windDiractionValue <= 240))
+		{
+			diraction += "South";
+		}
+
+		if ((windDiractionValue >= 30) && (windDiractionValue <= 150))
+		{
+			if (!empty(diraction))
+			{
+				diraction += "-";
+			}
+			diraction += "West";
+		}
+
+		if ((windDiractionValue >= 210) && (windDiractionValue <= 330))
+		{
+			if (!empty(diraction))
+			{
+				diraction += "-";
+			}
+			diraction += "East";
+		}
+
+		std::cout << "Direction: " << diraction << std::endl;
+		std::cout << "----------------" << std::endl;
+	}
+
 
 	void PrintStatistics(CStatistics &data)
 	{
@@ -123,6 +168,8 @@ private:
 	CStatistics m_temperature;
 	CStatistics m_humidity;
 	CStatistics m_pressure;
+	CStatistics m_windForce;
+	CStatistics m_windDiraction;
 };
 
 class CWeatherData : public CObservable<SWeatherInfo>
@@ -144,16 +191,28 @@ public:
 		return m_pressure;
 	}
 
+	double GetWindForce() const
+	{
+		return m_windForce;
+	}
+
+	double GetWindDiraction() const
+	{
+		return fmod(m_windDirection, static_cast<double>(360));;
+	}
+
 	void MeasurementsChanged()
 	{
 		NotifyObservers();
 	}
 
-	void SetMeasurements(double temp, double humidity, double pressure)
+	void SetMeasurements(double temp, double humidity, double pressure, double windForce, double windDiraction)
 	{
 		m_humidity = humidity;
 		m_temperature = temp;
 		m_pressure = pressure;
+		m_windForce = windForce;
+		m_windDirection = windDiraction;
 
 		MeasurementsChanged();
 	}
@@ -165,6 +224,9 @@ protected:
 		info.temperature = GetTemperature();
 		info.humidity = GetHumidity();
 		info.pressure = GetPressure();
+		info.windForce = GetWindForce();
+		info.windDiraction = GetWindDiraction();
+
 		return info;
 	}
 
@@ -172,4 +234,6 @@ private:
 	double m_temperature = 0.0;
 	double m_humidity = 0.0;
 	double m_pressure = 760.0;
+	double m_windForce = 0;
+	double m_windDirection = 180;
 };
