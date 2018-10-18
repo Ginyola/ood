@@ -24,6 +24,16 @@ public:
 		: m_priority(priority)
 	{};
 
+	void SetPriority(unsigned priority)
+	{
+		m_priority = priority;
+	}
+
+	unsigned GetPriority() const
+	{
+		return m_priority;
+	}
+
 private:
 	/* Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
 	Классу CObservable он будет доступен все равно, т.к. в интерфейсе IObserver он
@@ -36,16 +46,6 @@ private:
 		std::cout << "Current Hum " << data.humidity << std::endl;
 		std::cout << "Current Pressure " << data.pressure << std::endl;
 		std::cout << "----------------" << std::endl;
-	}
-
-	void SetPriority(unsigned priority)
-	{
-		m_priority = priority;
-	}
-
-	unsigned GetPriority() const
-	{
-		return m_priority;
 	}
 
 	unsigned m_priority = 0;

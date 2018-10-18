@@ -18,31 +18,48 @@ private:
 	std::string m_description;
 };
 
+enum CoffieSize
+{
+	STANDARD,
+	DOUBLE
+};
+
 // Кофе
 class CCoffee : public CBeverage
 {
 public:
-	CCoffee(const std::string& description = "Coffee")
-		:CBeverage(description) 
+	CCoffee(const std::string& description = "Coffee", CoffieSize size = CoffieSize::STANDARD)
+		:CBeverage(description)
+		, m_size(size)
 	{}
 
 	double GetCost() const override 
 	{
 		return 60; 
 	}
+protected:
+	CoffieSize m_size;
 };
 
 // Капуччино
 class CCapuccino : public CCoffee
 {
 public:
-	CCapuccino() 
-		:CCoffee("Capuccino") 
-	{}
+	CCapuccino()
+	{
+		if (m_size == CoffieSize::DOUBLE)
+		{
+			CCoffee("Capuccino");
+		}
+		else
+		{
+			CCoffee("Double Capuccino");
+		}
+	}
 
 	double GetCost() const override 
 	{
-		return 80; 
+		return (CoffieSize::DOUBLE) ? 120 : 80;
 	}
 };
 
@@ -51,12 +68,20 @@ class CLatte : public CCoffee
 {
 public:
 	CLatte() 
-		:CCoffee("Latte") 
-	{}
+	{
+		if (m_size == CoffieSize::DOUBLE)
+		{
+			CCoffee("Latte");
+		}
+		else
+		{
+			CCoffee("Double Latte");
+		}
+	}
 
 	double GetCost() const override 
 	{
-		return 90; 
+		return (CoffieSize::DOUBLE) ? 130 : 90;
 	}
 };
 

@@ -36,6 +36,16 @@ private:
 };
 
 
+class CObserverPriority : public CDisplay
+{
+
+private:
+	void Update(SWeatherInfo const& data) override
+	{
+		std::cout << GetPriority() << " ";
+	}
+};
+
 BOOST_AUTO_TEST_SUITE(Weather_tests)
 
 	BOOST_AUTO_TEST_CASE(Notify_observers)
@@ -62,11 +72,14 @@ BOOST_AUTO_TEST_SUITE(Weather_tests)
 	{
 		CWeatherData data;
 
-		CDisplay firstDisplay(1);
-		CDisplay secondDisplay(2);
-		CDisplay thirdDisplay(3);
-		CDisplay forthDisplay(4);
-		CDisplay fifthDisplay(5);
+		CObserverPriority firstDisplay;
+		firstDisplay.SetPriority(1);
+		CObserverPriority secondDisplay;
+		secondDisplay.SetPriority(5);
+		CObserverPriority thirdDisplay;
+		thirdDisplay.SetPriority(3);
+		CObserverPriority forthDisplay;
+		CObserverPriority fifthDisplay;
 
 		data.RegisterObserver(firstDisplay);
 		data.RegisterObserver(thirdDisplay);
@@ -75,6 +88,8 @@ BOOST_AUTO_TEST_SUITE(Weather_tests)
 		data.RegisterObserver(forthDisplay);
 
 		data.NotifyObservers();
+
+
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
