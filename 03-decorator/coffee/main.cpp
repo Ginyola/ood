@@ -118,7 +118,29 @@ void DialogWithUser()
 
 	if (beverageChoice == 1)
 	{
-		beverage = make_unique<CCoffee>();
+		int coffieType;
+		cout << "Type 1 for latte or 2 for capuccino\n";
+		cin >> coffieType;
+
+
+		cout << "Type 1 for standard or 2 for double\n";
+		cin >> beverageChoice;
+		
+		CoffieSize size = CoffieSize::STANDARD;
+		if (beverageChoice == 2)
+		{
+			size = CoffieSize::DOUBLE;
+		}
+
+		if (coffieType == 1)
+		{
+			beverage = make_unique<CLatte>("Latte", size);
+		}
+
+		if (coffieType == 2)
+		{
+			beverage = make_unique<CCapuccino>("Capuccino", size);
+		}
 	}
 	else if (beverageChoice == 2)
 	{
