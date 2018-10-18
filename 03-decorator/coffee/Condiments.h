@@ -177,3 +177,63 @@ protected:
 private:
 	unsigned m_mass;
 };
+
+// Добавка из сливок
+class CCream : public CCondimentDecorator
+{
+public:
+	CCream(IBeveragePtr && beverage)
+		: CCondimentDecorator(move(beverage))
+	{}
+protected:
+	double GetCondimentCost()const override
+	{
+		return 20;
+	}
+
+	std::string GetCondimentDescription()const override
+	{
+		return "Cream";
+	}
+};
+
+enum LiquorType
+{
+	CHOCOLATE,
+	WALNUT
+};
+
+// Ликер
+class CLiquor : public CCondimentDecorator
+{
+public:
+	CLiquor(IBeveragePtr && beverage, LiquorType type)
+		: CCondimentDecorator(move(beverage))
+		, m_type(type)
+	{}
+
+protected:
+	double GetCondimentCost()const override
+	{
+		return 50;
+	}
+	std::string GetCondimentDescription()const override
+	{
+		std::string type;
+		switch (m_type)
+		{
+		case LiquorType::CHOCOLATE:
+			type = "Chocolate";
+			break;
+		case LiquorType::WALNUT:
+			type = "Walnut";
+			break;
+		default:
+			break;
+		}
+
+		return type + "Liquor";
+	}
+private:
+	LiquorType m_type;
+};
