@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_SUITE(Weather_tests)
 		data.NotifyObservers();
 
 		auto after = observer.GetNotificationNumber();
-		std::cout << "Before: " << before << " After: " << after << std::endl;
+		//std::cout << "Before: " << before << " After: " << after << std::endl;
 
 		BOOST_CHECK((before == 0) && (after == 1));
 	}
@@ -78,12 +78,9 @@ BOOST_AUTO_TEST_SUITE(Weather_tests)
 		CStatsDisplay statsDisplay;
 		wd.RegisterObserver(statsDisplay);
 
-		wd.SetMeasurements(3, 0.7, 760, 10, 0);
-		wd.SetMeasurements(4, 0.8, 761, 5, 90);
-
-		wd.SetMeasurements(10, 0.8, 759, 9, 1000);
-		wd.SetMeasurements(-10, 0.8, 761, 2, 225);
-		wd.SetMeasurements(-10, 0.8, 761, 2, 45);
+		wd.SetMeasurements(3, 0.7, 760, 10, 90);
+		wd.SetMeasurements(4, 0.8, 761, 5, 275);
+		wd.SetMeasurements(4, 0.8, 761, 5, 180);
 
 //		BOOST_CHECK();
 	}

@@ -6,6 +6,8 @@
 #include <iostream>
 #include <vector>
 
+#define M_PI  3.14159265358979323846
+
 using namespace std;
 
 struct SWeatherInfo
@@ -45,10 +47,10 @@ private:
 
 	void Update(SWeatherInfo const& data) override
 	{
-		std::cout << "Current Temp " << data.temperature << std::endl;
+		/*std::cout << "Current Temp " << data.temperature << std::endl;
 		std::cout << "Current Hum " << data.humidity << std::endl;
 		std::cout << "Current Pressure " << data.pressure << std::endl;
-		std::cout << "----------------" << std::endl;
+		std::cout << "----------------" << std::endl;*/
 	}
 
 	unsigned m_priority = 0;
@@ -94,6 +96,52 @@ private:
 	unsigned m_countAcc = 0;
 };
 
+class CWindDiractionStatistics
+{
+public:
+	void AddValue(double angle)
+	{
+		double radAngleX = angle * (M_PI / 180);
+		double radAngleY = m_accValue * (M_PI / 180);
+
+		double x = cos(radAngleX) + cos(radAngleY);
+		double y = sin(radAngleY) + sin(radAngleX);
+
+		double result = atan2(y, x);
+		
+		m_prevValue = m_currentValue;
+		m_currentValue = angle;
+		m_accValue = result * (180 / M_PI);
+
+		if (m_accValue < 0)
+		{
+			m_accValue += 360;
+		}
+	}
+
+	double GetPrevValue() const
+	{
+		return m_prevValue;
+	}
+
+	double GetCurrentValue() const
+	{
+		return m_currentValue;
+	}
+
+	double GetAverageValue() const
+	{
+		return m_accValue;
+	}
+
+
+private:
+	double m_prevValue = 0;
+	double m_currentValue = 0;
+	double m_accValue = 0;
+	double m_accValueCount = 0;
+};
+
 class CStatsDisplay : public IObserver<SWeatherInfo>
 {
 private:
@@ -108,62 +156,35 @@ private:
 		m_pressure.AddValue(data.pressure);
 		m_windForce.AddValue(data.windForce);
 		m_windDirection.AddValue(data.windDirection);
-
+/*
 		std::cout << "Temperature: " << std::endl;
 		PrintStatistics(m_temperature);
 		std::cout << "Humidity: " << std::endl;
 		PrintStatistics(m_humidity);
 		std::cout << "Pressure: " << std::endl;
-		PrintStatistics(m_pressure);
+		*/PrintStatistics(m_pressure);
 		std::cout << "Wind Force: " << std::endl;
 		PrintStatistics(m_windForce);
 		std::cout << "Wind Diraction: " << std::endl;
 		PrintWindDirection(m_windDirection);
 	}
 
-	void PrintWindDirection(CStatistics &data)
+	void PrintWindDirection(CWindDiractionStatistics &data)
 	{
-		/*std::string diraction;
-		if((windDirectionValue > 300) || ((windDirectionValue >= 0) && (windDirectionValue <= 60)))
-		{
-			diraction += "North";
-		}
 
-		if ((windDirectionValue >= 120) && (windDirectionValue <= 240))
-		{
-			diraction += "South";
-		}
-
-		if ((windDirectionValue >= 30) && (windDirectionValue <= 150))
-		{
-			if (!empty(diraction))
-			{
-				diraction += "-";
-			}
-			diraction += "West";
-		}
-
-		if ((windDirectionValue >= 210) && (windDirectionValue <= 330))
-		{
-			if (!empty(diraction))
-			{
-				diraction += "-";
-			}
-			diraction += "East";
-		}*/
-		double x = cos(data.GetAverageValue());
-		double y = sin(data.GetAverageValue());
-
-		std::cout << "Direction: " << atan2(y, x) << std::endl;
+		std::cout << "Direction: " << std::endl;
+		std::cout << "\tCurrent: " << data.GetCurrentValue() << std::endl;
+		std::cout << "\tPrevious: " << data.GetPrevValue() << std::endl;
+		std::cout << "\tAverage: " << data.GetAverageValue() << std::endl;
 		std::cout << "----------------" << std::endl;
 	}
 
 
 	void PrintStatistics(CStatistics &data)
 	{
-		std::cout << "Max: " << data.GetMaxValue() << std::endl;
-		std::cout << "Min: " << data.GetMinValue() << std::endl;
-		std::cout << "Average: " << data.GetAverageValue() << std::endl;
+		std::cout << "\tMax: " << data.GetMaxValue() << std::endl;
+		std::cout << "\tMin: " << data.GetMinValue() << std::endl;
+		std::cout << "\tAverage: " << data.GetAverageValue() << std::endl;
 		std::cout << "----------------" << std::endl;
 	}
 
@@ -171,7 +192,7 @@ private:
 	CStatistics m_humidity;
 	CStatistics m_pressure;
 	CStatistics m_windForce;
-	CStatistics m_windDirection;
+	CWindDiractionStatistics m_windDirection;
 };
 
 class CWeatherData : public CObservable<SWeatherInfo>
