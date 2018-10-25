@@ -134,12 +134,12 @@ void DialogWithUser()
 
 		if (coffieType == 1)
 		{
-			beverage = make_unique<CLatte>("Latte", size);
+			beverage = make_unique<CLatte>(size);
 		}
 
 		if (coffieType == 2)
 		{
-			beverage = make_unique<CCapuccino>("Capuccino", size);
+			beverage = make_unique<CCapuccino>(size);
 		}
 	}
 	else if (beverageChoice == 2)
@@ -189,7 +189,7 @@ int main()
 	cout << endl;
 	{
 		// Наливаем чашечку латте
-		auto latte = make_unique<CLatte>();
+		auto latte = make_unique<CLatte>(CoffieSize::STANDARD);
 		// добавляем корицы
 		auto cinnamon = make_unique<CCinnamon>(move(latte));
 		// добавляем пару долек лимона
@@ -209,7 +209,7 @@ int main()
 				make_unique<CIceCubes>(				// | под нею - кубики льда
 					make_unique<CLemon>(			// | | еще ниже лимон
 						make_unique<CCinnamon>(		// | | | слоем ниже - корица
-							make_unique<CLatte>()),	// | | |   в самом сердце - Латте
+							make_unique<CLatte>(CoffieSize::STANDARD)),	// | | |   в самом сердце - Латте
 						2),							// | | 2 дольки лимона
 					2, IceCubeType::Dry),			// | 2 кубика сухого льда
 				2);									// 2 грамма шоколадной крошки
@@ -255,7 +255,7 @@ int main()
 	// обеспечиваемого операторами << и функцией MakeCondiment
 	{
 		auto beverage = 
-			make_unique<CLatte>()							// Наливаем чашечку латте,
+			make_unique<CLatte>(CoffieSize::STANDARD)							// Наливаем чашечку латте,
 			<< MakeCondiment<CCinnamon>()					// оборачиваем корицей,
 			<< MakeCondiment<CLemon>(2)						// добавляем пару долек лимона
 			<< MakeCondiment<CIceCubes>(2, IceCubeType::Dry)// брасаем пару кубиков сухого льда
@@ -267,7 +267,7 @@ int main()
 
 	{
 		auto beverage = 
-			make_unique<CMilkshake>()					// Наливаем молочный коктейль
+			make_unique<CMilkshake>(MilkshakeSize::MEDIUM)					// Наливаем молочный коктейль
 			<< MakeCondiment<CSyrup>(SyrupType::Maple)	// заливаем кленовым сиропом
 			<< MakeCondiment<CCoconutFlakes>(8);		// посыпаем кокосовой стружкой
 

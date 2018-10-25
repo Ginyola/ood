@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "IBeverage.h"
+#include <iostream>
 
 // Базовая реализация напитка, предоставляющая его описание
 class CBeverage : public IBeverage
@@ -34,7 +35,7 @@ enum CoffieSize
 class CCoffee : public CBeverage
 {
 public:
-	CCoffee(const std::string& description = "Coffee")
+	CCoffee(std::string& description)
 		:CBeverage(description)
 	{}
 
@@ -43,18 +44,18 @@ public:
 		return 60; 
 	}
 protected:
-	CCoffee(const std::string& description = "Coffee", CoffieSize size = CoffieSize::STANDARD)
+	CCoffee(std::string& description, CoffieSize size)
 		: CBeverage(description)
 		, m_size(size)
 	{};
-	CoffieSize m_size;
+	CoffieSize m_size = CoffieSize::STANDARD;
 };
 
 // Капуччино
 class CCapuccino : public CCoffee
 {
 public:
-	CCapuccino(const std::string& description = "Capuccino", CoffieSize size = CoffieSize::STANDARD)
+	CCapuccino(CoffieSize size)
 		: CCoffee(GetCapuccinoDescription(size), size)
 	{
 	}
@@ -85,7 +86,7 @@ private:
 class CLatte : public CCoffee
 {
 public:
-	CLatte(const std::string& description = "Latte", CoffieSize size = CoffieSize::STANDARD)
+	CLatte(CoffieSize size)
 		: CCoffee(GetLatteDescription(size), size)
 	{
 	}
@@ -166,7 +167,7 @@ enum MilkshakeSize
 class CMilkshake : public CBeverage
 {
 public:
-	CMilkshake(const std::string& description = "Milkshake", MilkshakeSize size = MilkshakeSize::SMALL)
+	CMilkshake(MilkshakeSize size)
 		:CBeverage(GetMilksakeDescription(size))
 		, m_size(size)
 	{
@@ -179,17 +180,17 @@ public:
 		if(m_size == MilkshakeSize::SMALL)
 		{
 			cost = 50;
-		};
+		}
 
 		if (m_size == MilkshakeSize::MEDIUM)
 		{
 			cost = 60;
-		};
+		}
 
 		if (m_size == MilkshakeSize::LARGE)
 		{
 			cost = 80;
-		};
+		}
 
 		return cost; 
 	}
