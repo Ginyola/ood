@@ -78,9 +78,9 @@ BOOST_AUTO_TEST_SUITE(Weather_tests)
 		CStatsDisplay statsDisplay;
 		wd.RegisterObserver(statsDisplay);
 
-		wd.SetMeasurements(3, 0.7, 760, 10, 90);
-		wd.SetMeasurements(4, 0.8, 761, 5, 275);
-		wd.SetMeasurements(4, 0.8, 761, 5, 180);
+		wd.SetMeasurements(3, 0.7, 760, 2, 45);
+		wd.SetMeasurements(4, 0.8, 761, 1, 225);
+		wd.SetMeasurements(4, 0.8, 761, 1, 225);
 
 //		BOOST_CHECK();
 	}

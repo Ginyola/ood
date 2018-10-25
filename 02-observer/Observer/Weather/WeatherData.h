@@ -7,6 +7,7 @@
 #include <vector>
 
 #define M_PI  3.14159265358979323846
+using Vector2d = std::pair<double, double>;
 
 using namespace std;
 
@@ -96,49 +97,62 @@ private:
 	unsigned m_countAcc = 0;
 };
 
-class CWindDiractionStatistics
+class CWindDirectionStatistics
 {
 public:
-	void AddValue(double angle)
+	void AddValue(double angle, double force)
 	{
-		double radAngleX = angle * (M_PI / 180);
-		double radAngleY = m_accValue * (M_PI / 180);
-
-		double x = cos(radAngleX) + cos(radAngleY);
-		double y = sin(radAngleY) + sin(radAngleX);
-
-		double result = atan2(y, x);
-		
-		m_prevValue = m_currentValue;
-		m_currentValue = angle;
-		m_accValue = result * (180 / M_PI);
-
-		if (m_accValue < 0)
+		if (m_minForce > force)
 		{
-			m_accValue += 360;
+			m_minForce = force;
 		}
+		if (m_maxForce < force)
+		{
+			m_maxForce = force;
+		}
+
+		m_accForce += force;
+
+		float x = static_cast<float>(force * cos(angle * (M_PI / 180)));
+		float y = static_cast<float>(force * sin(angle * (M_PI / 180)));
+	
+		m_accValue = {m_accValue.first + x, m_accValue.second + y};
+
+		std::cout << x << " " << y << "\n";
+		std::cout << m_accValue.first << " " << m_accValue.second << "\n";
+
+		++m_accValueCount;
 	}
 
-	double GetPrevValue() const
+	double GetMinForceValue() const
 	{
-		return m_prevValue;
+		return m_minForce;
 	}
 
-	double GetCurrentValue() const
+	double GetMaxForceValue() const
 	{
-		return m_currentValue;
+		return m_maxForce;
+	}
+
+	double GetAverageForceValue() const
+	{
+		return m_accForce ? m_accForce / m_accValueCount : 0;;
 	}
 
 	double GetAverageValue() const
 	{
-		return m_accValue;
+		double angle = atan2(m_accValue.second, m_accValue.first) * (180 / M_PI);
+		if (angle < 0)
+			angle += 360;
+		return angle;
 	}
 
 
 private:
-	double m_prevValue = 0;
-	double m_currentValue = 0;
-	double m_accValue = 0;
+	double m_minForce = 0;
+	double m_maxForce = 0;
+	double m_accForce = 0;
+	std::pair<double, double> m_accValue = {0, 0};
 	double m_accValueCount = 0;
 };
 
@@ -154,28 +168,26 @@ private:
 		m_temperature.AddValue(data.temperature);
 		m_humidity.AddValue(data.humidity);
 		m_pressure.AddValue(data.pressure);
-		m_windForce.AddValue(data.windForce);
-		m_windDirection.AddValue(data.windDirection);
+		m_windParameters.AddValue(data.windDirection, data.windForce);
 /*
 		std::cout << "Temperature: " << std::endl;
 		PrintStatistics(m_temperature);
 		std::cout << "Humidity: " << std::endl;
 		PrintStatistics(m_humidity);
 		std::cout << "Pressure: " << std::endl;
-		*/PrintStatistics(m_pressure);
-		std::cout << "Wind Force: " << std::endl;
-		PrintStatistics(m_windForce);
-		std::cout << "Wind Diraction: " << std::endl;
-		PrintWindDirection(m_windDirection);
+		PrintStatistics(m_pressure);*/
+		std::cout << "Wind Parameters: " << std::endl;
+		PrintWindParameters(m_windParameters);
 	}
 
-	void PrintWindDirection(CWindDiractionStatistics &data)
+	void PrintWindParameters(CWindDirectionStatistics &data)
 	{
 
 		std::cout << "Direction: " << std::endl;
-		std::cout << "\tCurrent: " << data.GetCurrentValue() << std::endl;
-		std::cout << "\tPrevious: " << data.GetPrevValue() << std::endl;
 		std::cout << "\tAverage: " << data.GetAverageValue() << std::endl;
+		std::cout << "\tMin Force: " << data.GetMinForceValue() << std::endl;
+		std::cout << "\tMax Force: " << data.GetMaxForceValue() << std::endl;
+		std::cout << "\tAverage Force: " << data.GetAverageForceValue() << std::endl;
 		std::cout << "----------------" << std::endl;
 	}
 
@@ -192,7 +204,7 @@ private:
 	CStatistics m_humidity;
 	CStatistics m_pressure;
 	CStatistics m_windForce;
-	CWindDiractionStatistics m_windDirection;
+	CWindDirectionStatistics m_windParameters;
 };
 
 class CWeatherData : public CObservable<SWeatherInfo>
