@@ -129,6 +129,7 @@ public:
 
 class CBlackTea : public CTea
 {
+public:
 	CBlackTea()
 		:CTea("Black Tea")
 	{}
@@ -136,6 +137,7 @@ class CBlackTea : public CTea
 
 class CGreenTea : public CTea
 {
+public:
 	CGreenTea()
 		:CTea("Green Tea")
 	{}
@@ -143,6 +145,7 @@ class CGreenTea : public CTea
 
 class CRedTea : public CTea
 {
+public:
 	CRedTea()
 		:CTea("Red Tea")
 	{}
@@ -150,6 +153,7 @@ class CRedTea : public CTea
 
 class CCannabisTea : public CTea
 {
+public:
 	CCannabisTea()
 		:CTea("Funny Tea")
 	{}
