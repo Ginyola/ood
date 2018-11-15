@@ -113,8 +113,8 @@ public:
 
 		m_accForce += force;
 
-		float x = static_cast<float>(force * cos(angle * (M_PI / 180)));
-		float y = static_cast<float>(force * sin(angle * (M_PI / 180)));
+		double x = force * cos(angle * (M_PI / 180));
+		double y = force * sin(angle * (M_PI / 180));
 	
 		m_accValue = {m_accValue.first + x, m_accValue.second + y};
 
@@ -182,7 +182,7 @@ private:
 
 	void PrintWindParameters(CWindDirectionStatistics &data)
 	{
-
+		std::cout.precision(5);
 		std::cout << "Direction: " << std::endl;
 		std::cout << "\tAverage: " << data.GetAverageValue() << std::endl;
 		std::cout << "\tMin Force: " << data.GetMinForceValue() << std::endl;

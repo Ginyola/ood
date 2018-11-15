@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_SUITE(Weather_tests)
 
 		wd.SetMeasurements(3, 0.7, 760, 2, 45);
 		wd.SetMeasurements(4, 0.8, 761, 1, 225);
-		wd.SetMeasurements(4, 0.8, 761, 1, 225);
+		wd.SetMeasurements(4, 0.8, 761, 1, 135);
 
 //		BOOST_CHECK();
 	}

@@ -58,10 +58,10 @@ public:
 		
 		if (currentObserversAmount != m_observersAmount)
 		{
-			std::cout << "Houston have a loss :( "
+			/*std::cout << "Houston have a loss :( "
 				<< currentObserversAmount << " " 
 				<< m_observersAmount 
-				<< std::endl;
+				<< std::endl;*/
 		}
 	}
 
