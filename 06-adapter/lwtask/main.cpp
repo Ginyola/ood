@@ -214,9 +214,7 @@ public:
 
 	void MoveTo(int x, int y) override
 	{
-		std::cout << "set last point 1\n";
 		m_lastPoint = modern_graphics_lib::CPoint({ x, y });
-		std::cout << "set last point 1 end\n";
 	}
 	void LineTo(int x, int y) override
 	{
