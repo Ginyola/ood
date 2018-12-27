@@ -220,9 +220,7 @@ public:
 	{
 		modern_graphics_lib::CPoint newPoint({ x, y });
 
-		m_renderer.BeginDraw();
 		m_renderer.DrawLine(m_lastPoint, newPoint);
-		m_renderer.EndDraw();
 
 		m_lastPoint = newPoint;
 	}
@@ -262,7 +260,9 @@ void PaintPictureOnModernGraphicsRenderer()
 	CCanvasAdapter adapter(renderer);
 	shape_drawing_lib::CCanvasPainter painter(adapter);
 
+	renderer.BeginDraw();
 	PaintPicture(painter);
+	renderer.EndDraw();
 
 	// TODO: при помощи существующей функции PaintPicture() нарисовать
 	// картину на renderer
