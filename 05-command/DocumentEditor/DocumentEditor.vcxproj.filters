@@ -21,9 +21,27 @@
     <ClCompile Include="Html.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CHistory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Html.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CHistory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ICommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CInsertParagraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

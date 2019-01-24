@@ -41,15 +41,11 @@ public:
 };
 
 /* Параграф текста*/
-class IElement
-{
-public:
-	virtual ~IElement() = default;
-};
 
-class IParagraph : public IElement
+class IParagraph
 {
 public:
+	virtual ~IParagraph() = default;
 	virtual string GetText() const = 0;
 	virtual void SetText(const string& text) = 0;
 };
@@ -67,12 +63,12 @@ private:
 /*
 Изображение
 */
-class IImage : public IElement
+class IImage
 {
 public:
+	virtual ~IImage() = default;
 	// Возвращает путь относительно каталога документа
 	virtual Path GetPath() const = 0;
-	virtual void SetPath(const Path& text) = 0;
 
 	// Ширина изображения в пикселях
 	virtual int GetWidth() const = 0;
@@ -87,7 +83,6 @@ class CImage : public IImage
 {
 public:
 	Path GetPath() const override;
-	void SetPath(const Path& path) override;
 
 	int GetWidth() const override;
 	int GetHeight() const override;
@@ -170,6 +165,5 @@ public:
 	virtual void SetTitle(const string& title) override;
 
 private:
-	std::vector<shared_ptr<IElement>> m_orderedElements;
 	string m_title;
 };
